@@ -1,4 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState,  useEffect } from 'react';
+const buttonIdle1 = 'https://res.cloudinary.com/dw0qtsos5/image/upload/v1763178845/button_numpad_idle1_z1yznk.png';
+const buttonIdle2 = 'https://res.cloudinary.com/dw0qtsos5/image/upload/v1763178852/button_numpad_idle2_nzoomr.png';
+const buttonIdle3 = "https://res.cloudinary.com/dw0qtsos5/image/upload/v1763178859/button_numpad_idle3_inwkm9.png";
+const buttonSquare ='https://res.cloudinary.com/dw0qtsos5/image/upload/v1763178866/button_square_hover_intazv.png';
+const backgroundImage = 'https://res.cloudinary.com/dw0qtsos5/image/upload/v1763178875/cyberpunk_background_wxdpip.jpg';
 // import Complex from 'https://cdn.esm.sh/complex.js@2.1.1'; // Removido para importação dinâmica
 
 // --- Funções do "Cérebro" da Calculadora ---
@@ -11,7 +16,7 @@ function tokenize(str) {
   // Remove espaços
   const expression = str.replace(/\s+/g, '');
   // Usa regex para encontrar números (incluindo decimais) ou operadores, ou a palavra 'equal'
-  const tokens = expression.match(/(\d+\.\d+|\d+|[+\-*/√()i]|equal)/g);
+  const tokens = expression.match(/(\d+\.\d+|\d+|[+\-*/^√()i]|equal|conj)/g);
   if (!tokens) {
     throw new Error("Entrada inválida");
   }
@@ -52,6 +57,12 @@ function parse(expression) {
       return ['√', arg];
     }
 
+    if(token == 'conj'){
+      consume();
+      const arg = parseFactor();
+      return ['conj', arg];
+    }
+
     if (token === '(') {
       consume(); // Consome '('
       const node = parseEquality(); // Começa a parsear a expressão interna
@@ -65,9 +76,22 @@ function parse(expression) {
     throw new Error(`Token inesperado: ${token}`);
   }
 
+  function parsePower(){
+    let node = parseFactor();
+
+    if(peek() ==  '^'){
+
+      const op = consume();
+      const right = parsePower();
+      node = [op, node, right];
+
+    }
+    return node;
+  }
+
   // parseTerm lida com *, / e multiplicação implícita (ex: 4i, (2)i, i(2))
   function parseTerm() {
-    let node = parseFactor();
+    let node = parsePower();
 
     // Continua a parsear termos enquanto houver *, /, ou um
     // token que implique multiplicação (como 'i' ou '(' logo após um fator)
@@ -179,7 +203,7 @@ function evaluate(node, Complex) {
     
     // 'equal' é tratado simbolicamente em handleEquals, não aqui.
     if (op === 'equal') {
-       throw new Error("'equal' não pode ser avaliado numericamente.");
+      throw new Error("'equal' não pode ser avaliado numericamente.");
     }
 
     // Avalia recursivamente os "filhos" da árvore primeiro
@@ -188,6 +212,10 @@ function evaluate(node, Complex) {
     switch (op) {
       case '√':
         return evaluatedArgs[0].sqrt();
+      case '^':
+        return evaluatedArgs[0].pow(evaluatedArgs[1]);
+      case 'conj':
+        return evaluatedArgs[0].conjugate();
       case '+':
         return evaluatedArgs[0].add(evaluatedArgs[1]);
       case '-':
@@ -208,7 +236,7 @@ function evaluate(node, Complex) {
     return Complex.I;
   }
   if (isNaN(parseFloat(node))) {
-     throw new Error(`Número inválido: ${node}`);
+    throw new Error(`Número inválido: ${node}`);
   }
   return new Complex(parseFloat(node));
 }
@@ -238,15 +266,126 @@ function formatComplex(c) {
 
 // --- Componente React ---
 
-// Componente de Botão reutilizável
-const Button = ({ value, onClick, className = '', children }) => (
-  <button
-    onClick={() => onClick(value)}
-    className={`bg-gray-700 hover:bg-gray-600 text-white text-2xl font-semibold p-4 rounded-lg transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-blue-500 ${className}`}
-  >
-    {children || value}
-  </button>
-);
+//Componente do botão da estrela roxa escura
+
+const StarButtonPurpleDark = ({ value, onClick, starImage = buttonIdle3, children, className= '' }) => (
+
+<button
+      onClick={() => onClick(value)}
+      className={`relative text-white text-xl font-bold transition-all duration-200 focus:outline-none transform hover:scale-110 hover:brightness-150 ${className}`}
+      style={{
+        width: '70px',
+        height: '70px',
+        border: 'none',
+        backgroundImage: `url(${starImage})`,
+        backgroundSize: 'contain',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: 'transparent'
+      }}
+    >
+      <span className='absolute inset-0 flex items-center justify-center'>
+        {children || value}
+      </span>
+    </button>)
+
+//Componente do botão da estrela cinza
+
+const StarButtonGray = ({ value, onClick, starImage = buttonIdle1, children, className= '' }) => (
+
+<button
+      onClick={() => onClick(value)}
+      className={`relative text-black text-xl font-bold transition-all duration-200 focus:outline-none transform hover:scale-110 hover:brightness-150 ${className}`}
+      style={{
+        width: '70px',
+        height: '70px',
+        border: 'none',
+        backgroundImage: `url(${starImage})`,
+        backgroundSize: 'contain',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: 'transparent'
+      }}
+    >
+      <span className='absolute inset-0 flex items-center justify-center'>
+        {children || value}
+      </span>
+    </button>)
+
+// Componente do Botão da estrela roxa
+const StarButtonPurple = ({ value, onClick, starImage = buttonIdle2, children, className= '' }) => (
+
+<button
+      onClick={() => onClick(value)}
+      className={`relative text-white text-xl font-bold transition-all duration-200 focus:outline-none transform hover:scale-110 hover:brightness-150 ${className}`}
+      style={{
+        width: '70px',
+        height: '70px',
+        border: 'none',
+        backgroundImage: `url(${starImage})`,
+        backgroundSize: 'contain',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: 'transparent'
+      }}
+    >
+      <span className='absolute inset-0 flex items-center justify-center'>
+        {children || value}
+      </span>
+    </button>)
+  
+  //Componente do botão do histórico
+  const HistoryButton = ({ value, onClick, starImage = buttonSquare, children, className = ''}) => (
+<button 
+onClick= {() => onClick(value)}
+className= {`relative text-white text-lg font-bold transition-all duration-200 focus:outline-none transform hover:scale-105 hover:brightness-150${className}`}
+style={{
+  minWidth: '180px',
+  height: '55px',
+  border: 'none',
+  marginTop: "17px" ,
+  marginLeft: "5px",
+  backgroundImage: `url(${starImage})`,
+  backgroundSize: '100% 100%',
+  backgroundPosition: 'center',
+  backgroundRepeat: "no-repeat",
+  backgroundColor: "transparent"
+}}
+>
+
+<span className='absolute inset-0 flex items-center justify-center'>
+  {children || value}
+</span>
+
+</button>
+  )
+  //Componente do botão EQUAL
+  const EqualButton = ({ value, onClick, starImage = buttonSquare, children, className = ''}) => (
+<button 
+onClick= {() => onClick(value)}
+className= {`relative text-white text-lg font-bold transition-all duration-200 focus:outline-none transform hover:scale-105 hover:brightness-150${className}`}
+style={{
+  minWidth: '180px',
+  height: '55px',
+  border: 'none',
+  marginTop: "17px" ,
+  marginLeft: "140px",
+  backgroundImage: `url(${starImage})`,
+  backgroundSize: '100% 100%',
+  backgroundPosition: 'center',
+  backgroundRepeat: "no-repeat",
+  backgroundColor: "transparent"
+}}
+>
+
+<span className='absolute inset-0 flex items-center justify-center'>
+  {children || value}
+</span>
+
+</button>
+  )
+    
+  
 
 // Componente Modal do Histórico
 const HistoryModal = ({ history, onClose }) => (
@@ -292,6 +431,8 @@ export default function App() {
   const [history, setHistory] =useState([]); // A pilha de histórico
   const [showHistory, setShowHistory] = useState(false); // Controla o modal
 
+  
+
   // Carrega a biblioteca ao montar o componente
   useEffect(() => {
     import('https://cdn.esm.sh/complex.js@2.1.1')
@@ -318,6 +459,20 @@ export default function App() {
         setDisplayValue('');
         setLispOutput('');
         break;
+      case 'DEL':
+          setDisplayValue(prev => prev.slice(0, -1));
+          break;
+      case '%':
+
+        if (displayValue && displayValue !== '0'){
+          const currentValue = parseFloat(displayValue)
+
+          if (!isNaN(currentValue)){
+            setDisplayValue(String(currentValue / 100))
+          }
+        }
+
+        break;
       case '=':
         handleEquals();
         break;
@@ -325,9 +480,9 @@ export default function App() {
         // Se o display atual for um resultado (ou 0) e não um operador,
         // limpe-o antes de adicionar um novo número.
         if ((displayValue === '0' && value !== '.') || displayValue === 'Verdadeiro' || displayValue === 'Falso') {
-           setDisplayValue(value);
+          setDisplayValue(value);
         } else {
-           setDisplayValue(prev => prev + value);
+          setDisplayValue(prev => prev + value);
         }
         break;
     }
@@ -387,10 +542,12 @@ export default function App() {
         
         // 4. Display Result
         resultString = formatComplex(result);
+        
       }
       
       // 5. Atualiza o Display
       setDisplayValue(resultString);
+      
       
       // 6. Adiciona à Pilha de Histórico
       const newEntry = { expression: currentExpression, result: resultString };
@@ -415,7 +572,7 @@ export default function App() {
     setShowHistory(prev => !prev);
   };
 
-  // Mapeia classes de estilo especiais
+  /*
   const getButtonClass = (btn) => {
     if (['+', '-', '*', '/', '√', '(', ')', 'i'].includes(btn)) {
       return 'bg-yellow-500 hover:bg-yellow-400';
@@ -438,7 +595,7 @@ export default function App() {
       return '';
     }
     return '';
-  };
+  };*/
   
   // Mostra um estado de carregamento enquanto a biblioteca não está pronta
   if (isLoading) {
@@ -454,14 +611,21 @@ export default function App() {
       {/* O Modal de Histórico (só é visível se showHistory for true) */}
       {showHistory && <HistoryModal history={history} onClose={toggleHistoryModal} />}
 
-      <div className="flex items-center justify-center min-h-screen bg-gray-900 font-sans">
-        <div className="w-full max-w-md p-6 bg-gray-800 rounded-lg shadow-2xl border border-gray-700">
-          <h1 className="text-2xl font-bold text-center text-white mb-4">Calculadora LISP</h1>
+      <div className=" flex items-center justify-center min-h-screen font-sans" style={{
+        backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundAttachment: 'fixed'
+
+      }} >
+        <div className="w-full max-w-md p-6 bg-gray-900/80 backdrop-blur-sm rounded-2xl shadow-2xl border-2 border-purple-500/50">
+          <h1 className="text-3xl font-bold text-center bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent mb-4 drop-shadow-lg" >Calculadora LISP</h1>
           
           {/* Display Principal */}
-          <div className="bg-gray-900 text-white text-right p-4 rounded-md mb-2 h-20 flex flex-col justify-end border border-gray-700">
+          <div className="bg-gray-950 text-white border-2 border-purple-500/30 text-right">
             {error && (
-              <div className="text-red-400 text-sm">{error}</div>
+              <div className="text-pink-400 text-sm">{error}</div>
             )}
             <div className="text-4xl font-mono truncate" title={displayValue}>
               {displayValue || '0'}
@@ -469,56 +633,75 @@ export default function App() {
           </div>
           
           {/* Display LISP */}
-          <div className="bg-gray-900 text-yellow-300 text-right p-2 rounded-md mb-4 h-12 font-mono text-sm border border-gray-700 overflow-x-auto" title={lispOutput}>
+          <div className="bg-gray-950 text-purple-300 text-right p-2 rounded-lg mb-4 h-12 font-mono text-sm border-2 border-purple-500/30 overflow-x-auto shadow-lg" title={lispOutput}>
             {lispOutput || 'Notação LISP...'}
           </div>
 
           {/* Numpad */}
           {/* A grid agora tem 7 linhas (grid-rows-7) */}
-          <div className="grid grid-cols-4 grid-rows-7 gap-2">
+          <div className="grid grid-cols-5 grid-rows-6  gap-2">
             
             {/* Layout Fixo para melhor controle */}
             {/* Row 1 */}
-            <Button value="(" onClick={handleButtonClick} className={getButtonClass('(')}>(</Button>
-            <Button value=")" onClick={handleButtonClick} className={getButtonClass(')')}>)</Button>
-            <Button value="i" onClick={handleButtonClick} className={getButtonClass('i')}>i</Button>
-            <Button value="C" onClick={handleButtonClick} className={getButtonClass('C')}>C</Button>
+            <StarButtonPurple value="(" onClick={handleButtonClick} >(</StarButtonPurple>
+            <StarButtonPurple value=")" onClick={handleButtonClick} >)</StarButtonPurple>
+            <StarButtonPurple value="i" onClick={handleButtonClick} >i</StarButtonPurple>
+            <StarButtonPurpleDark value="DEL" onClick={handleButtonClick} >⌫</StarButtonPurpleDark>
+            <StarButtonPurpleDark value="C" onClick={handleButtonClick}  >C</StarButtonPurpleDark>
             
             {/* Row 2 */}
-            <Button value="7" onClick={handleButtonClick} className={getButtonClass('7')}>7</Button>
-            <Button value="8" onClick={handleButtonClick} className={getButtonClass('8')}>8</Button>
-            <Button value="9" onClick={handleButtonClick} className={getButtonClass('9')}>9</Button>
-            <Button value="/" onClick={handleButtonClick} className={getButtonClass('/')}>÷</Button>
+            <StarButtonGray value="7" onClick={handleButtonClick} >7</StarButtonGray>
+            <StarButtonGray value="8" onClick={handleButtonClick} >8</StarButtonGray>
+            <StarButtonGray value="9" onClick={handleButtonClick} >9</StarButtonGray>
+            <StarButtonPurple value="/" onClick={handleButtonClick} >÷</StarButtonPurple>
+            <StarButtonPurple value="%" onClick={handleButtonClick}>%</StarButtonPurple>
+            
             
             {/* Row 3 */}
-            <Button value="4" onClick={handleButtonClick} className={getButtonClass('4')}>4</Button>
-            <Button value="5" onClick={handleButtonClick} className={getButtonClass('5')}>5</Button>
-            <Button value="6" onClick={handleButtonClick} className={getButtonClass('6')}>6</Button>
-            <Button value="*" onClick={handleButtonClick} className={getButtonClass('*')}>*</Button>
+            <StarButtonGray value="4" onClick={handleButtonClick} >4</StarButtonGray>
+            <StarButtonGray value="5" onClick={handleButtonClick} >5</StarButtonGray>
+            <StarButtonGray value="6" onClick={handleButtonClick} >6</StarButtonGray>
+            <StarButtonPurple value="*" onClick={handleButtonClick} >*</StarButtonPurple>
+            <StarButtonPurple value="^" onClick={handleButtonClick} >^</StarButtonPurple>
             
             {/* Row 4 */}
-            <Button value="1" onClick={handleButtonClick} className={getButtonClass('1')}>1</Button>
-            <Button value="2" onClick={handleButtonClick} className={getButtonClass('2')}>2</Button>
-            <Button value="3" onClick={handleButtonClick} className={getButtonClass('3')}>3</Button>
-            <Button value="-" onClick={handleButtonClick} className={getButtonClass('-')}>-</Button>
+            <StarButtonGray value="1" onClick={handleButtonClick} >1</StarButtonGray>
+            <StarButtonGray value="2" onClick={handleButtonClick} >2</StarButtonGray>
+            <StarButtonGray value="3" onClick={handleButtonClick} >3</StarButtonGray>
+            <StarButtonPurple value="-" onClick={handleButtonClick} >-</StarButtonPurple>
 
             {/* Row 5 */}
-            <Button value="√" onClick={handleButtonClick} className={getButtonClass('√')}>√</Button>
-            <Button value="0" onClick={handleButtonClick} className={getButtonClass('0')}>0</Button>
-            <Button value="." onClick={handleButtonClick} className={getButtonClass('.')}>.</Button>
-            <Button value="+" onClick={handleButtonClick} className={getButtonClass('+')}>+</Button>
+            <StarButtonPurple value="√" onClick={handleButtonClick} s>√</StarButtonPurple>
+            <StarButtonGray value="0" onClick={handleButtonClick} >0</StarButtonGray>
+            <StarButtonGray value="." onClick={handleButtonClick}  >.</StarButtonGray>
+            <StarButtonPurple value="=" onClick={handleButtonClick} >=</StarButtonPurple>
+            <StarButtonPurple value="+" onClick={handleButtonClick}  >+</StarButtonPurple>
+            <StarButtonPurple value="conj" onClick={handleButtonClick}>c̄</StarButtonPurple>
+            
 
-            {/* Row 6 - Botões '=' e 'equal' */}
-            <Button value="=" onClick={handleButtonClick} className={`${getButtonClass('=')} col-span-2`}>=</Button>
-            <Button value="equal" onClick={handleButtonClick} className={`${getButtonClass('equal')} col-span-2`}>equal</Button>
+            {/* Row 6 - Botões '='  'equal' */}
+            
+            
             
             {/* Row 7 - Botão de Histórico */}
-            <button
-              onClick={toggleHistoryModal}
-              className={`col-span-4 ${getButtonClass('Histórico')} text-white text-2xl font-semibold p-4 rounded-lg transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-blue-500`}
-            >
-              Histórico
-            </button>
+            <HistoryButton
+              onClick={toggleHistoryModal} >
+              <h1 style={{
+                fontSize: "30px" ,
+                fontFamily: "Orbitron" ,
+              }}>
+                Histórico
+              </h1>
+            </HistoryButton>
+            
+            <EqualButton value="equal" onClick={handleButtonClick}> 
+              <h1 style={{
+                fontSize:  "40px",
+                fontFamily: "Orbitron" ,
+              }}>
+                equal
+              </h1>
+              </EqualButton>
 
           </div>
         </div>
