@@ -211,6 +211,31 @@ LISP: (conj (+ 3 (* 4 i)))
 | **equal**     | Compara duas expressões simbolicamente  |
 | **Histórico** | Abre o modal com os últimos 10 cálculos |
 
+### ⌨️ Atalhos de Teclado
+
+Você também pode usar o teclado para operar a calculadora. Abaixo está o mapeamento das teclas suportadas (case-insensitive quando aplicável):
+
+| Tecla(s)          | Função / Equivalente no Numpad                        |
+| ----------------- | ----------------------------------------------------- |
+| 0–9               | Insere o dígito correspondente                        |
+| . (ponto)         | Separador decimal                                     |
+| +, -, \*, /       | Operadores aritméticos (+, -, ×, ÷)                   |
+| x ou X            | Multiplicação (equivalente a `*`)                     |
+| ^                 | Potenciação                                           |
+| %                 | Porcentagem                                           |
+| ( , )             | Parênteses                                            |
+| i                 | Unidade imaginária (insere `i`)                       |
+| s ou S            | Raiz quadrada (equivalente a `√`)                     |
+| Enter ou =        | Executa o cálculo (equivalente ao botão `=`)          |
+| c ou C, Escape    | Limpa toda a expressão (equivalente ao botão `C`)     |
+| Backspace, Delete | Apaga o último caractere (equivalente ao botão `DEL`) |
+
+Notas:
+
+- As teclas relacionadas a operadores (por exemplo `+`, `-`, `*`, `/`, `^`, `%`) são mapeadas diretamente para os mesmos símbolos na expressão.
+- As teclas de atalho são tratadas de forma sensível aos contextos da aplicação — por exemplo, `Enter` avalia a expressão atual, `Backspace` remove o último caractere.
+- As teclas alfabéticas indicadas (`c`, `s`, `x`) funcionam indiferentemente entre maiúsculas e minúsculas.
+
 ---
 
 ## 📁 Estrutura do Projeto
