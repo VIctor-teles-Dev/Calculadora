@@ -68,6 +68,12 @@ function parse(expression) {
       return ["conj", arg];
     }
 
+    if (token === '-'){
+      consume();
+      const args = parseFactor();
+      return ['-', '0', args];
+    }
+
     if (token === "(") {
       consume(); // Consome '('
       const node = parseEquality(); // Começa a parsear a expressão interna
