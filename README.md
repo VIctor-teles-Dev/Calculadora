@@ -49,7 +49,7 @@ A **Calculadora Científica LISP** é uma aplicação web/desktop moderna que co
 
 ## 📸 ScreenShot
 
-![Amostra da Calculadora](https://res.cloudinary.com/dw0qtsos5/image/upload/v1763833722/amostra_calculadora_rvkwuj.png)
+![Amostra da Calculadora](https://res.cloudinary.com/dw0qtsos5/image/upload/v1763834166/amostra_certa_da_calculadora_blba4y.png)
 
 ## ✨ Funcionalidades
 
