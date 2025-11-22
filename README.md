@@ -9,7 +9,7 @@
 
 Uma calculadora científica avançada com suporte a **números complexos**, **notação LISP** e **comparação simbólica de expressões**, desenvolvida com React e visual cyberpunk.
 
-[📸 Ver Screenshots](#-funcionalidades) • [🚀 Instalação](#-instalação) • [💡 Como Usar](#-como-usar)
+[📸Ver Screenshots](#-screenshot)  [🎯Funcionalidades](#-funcionalidades) • [🚀 Instalação](#-instalação) • [💡 Como Usar](#-como-usar)
 
 </div>
 
@@ -46,6 +46,10 @@ A **Calculadora Científica LISP** é uma aplicação web/desktop moderna que co
 - **Histórico de Cálculos**: Mantém os últimos 10 cálculos realizados
 
 ---
+
+## 📸 ScreenShot
+
+![Amostra da Calculadora](https://res.cloudinary.com/dw0qtsos5/image/upload/v1763833722/amostra_calculadora_rvkwuj.png)
 
 ## ✨ Funcionalidades
 
