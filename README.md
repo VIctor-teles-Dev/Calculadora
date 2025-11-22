@@ -9,7 +9,7 @@
 
 Uma calculadora científica avançada com suporte a **números complexos**, **notação LISP** e **comparação simbólica de expressões**, desenvolvida com React e visual cyberpunk.
 
-[📸Ver Screenshots](#-screenshot)  [🎯Funcionalidades](#-funcionalidades) • [🚀 Instalação](#-instalação) • [💡 Como Usar](#-como-usar)
+[📸Ver Screenshots](#-screenshot) • [🎯Funcionalidades](#-funcionalidades) • [🚀 Instalação](#-instalação) • [💡 Como Usar](#-como-usar)
 
 </div>
 
