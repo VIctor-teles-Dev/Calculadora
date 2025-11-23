@@ -41,9 +41,10 @@ A **Calculadora Científica LISP** é uma aplicação web/desktop moderna que co
 
 - **Parser de Expressões Matemáticas**: Converte expressões em notação infixa para **AST (Árvore de Sintaxe Abstrata)**
 - **Notação LISP**: Exibe a representação LISP de cada expressão calculada
-- **Números Complexos**: Suporte completo para operações com números imaginários usando a biblioteca [complex.js](https://github.com/infusion/Complex.js)
+- **Números Complexos**: Implementação própria completa para operações com números imaginários (sem bibliotecas externas)
 - **Comparação Simbólica**: Verifica se duas expressões são matematicamente equivalentes
 - **Histórico de Cálculos**: Mantém os últimos 10 cálculos realizados
+- **Arquitetura Modular**: Código organizado seguindo as melhores práticas do React
 
 ---
 
@@ -86,14 +87,13 @@ A **Calculadora Científica LISP** é uma aplicação web/desktop moderna que co
 
 ## 🛠️ Tecnologias Utilizadas
 
-| Tecnologia      | Versão | Descrição                                       |
-| --------------- | ------ | ----------------------------------------------- |
-| **React**       | 19.2.0 | Biblioteca para construção da interface         |
-| **Vite**        | 7.2.2  | Build tool e servidor de desenvolvimento        |
-| **TailwindCSS** | 4.1.17 | Framework CSS para estilização                  |
-| **Electron**    | 39.2.0 | Framework para aplicação desktop                |
-| **Complex.js**  | 2.1.1  | Biblioteca para operações com números complexos |
-| **ESLint**      | 9.39.1 | Linter para qualidade de código                 |
+| Tecnologia      | Versão | Descrição                                |
+| --------------- | ------ | ---------------------------------------- |
+| **React**       | 19.2.0 | Biblioteca para construção da interface  |
+| **Vite**        | 7.2.2  | Build tool e servidor de desenvolvimento |
+| **TailwindCSS** | 4.1.17 | Framework CSS para estilização           |
+| **Electron**    | 39.2.0 | Framework para aplicação desktop         |
+| **ESLint**      | 9.39.1 | Linter para qualidade de código          |
 
 ---
 
@@ -246,21 +246,105 @@ Notas:
 
 ```
 calculadora/
-├── electron/              # Configuração do Electron
-│   └── main.cjs          # Processo principal do Electron
-├── public/               # Arquivos públicos estáticos
-├── src/                  # Código fonte
-│   ├── assets/          # Imagens e recursos visuais
-│   ├── App.jsx          # Componente principal da calculadora
-│   ├── index.css        # Estilos globais
-│   └── main.jsx         # Ponto de entrada do React
+├── electron/                        # Configuração do Electron
+│   └── main.cjs                    # Processo principal do Electron
+├── public/                         # Arquivos públicos estáticos
+├── src/                            # Código fonte
+│   ├── components/                 # Componentes React
+│   │   ├── Buttons/               # Componentes de botões
+│   │   │   ├── index.js          # Barrel export dos botões
+│   │   │   ├── StarButtonPurpleDark.jsx
+│   │   │   ├── StarButtonGray.jsx
+│   │   │   ├── StarButtonPurple.jsx
+│   │   │   ├── HistoryButton.jsx
+│   │   │   └── EqualButton.jsx
+│   │   └── HistoryModal.jsx       # Modal de histórico
+│   ├── hooks/                      # Custom React Hooks
+│   │   ├── useCalculator.js       # Lógica da calculadora
+│   │   └── useKeyboardInput.js    # Gerenciamento de teclado
+│   ├── utils/                      # Funções utilitárias
+│   │   ├── Complex.js             # Classe de números complexos
+│   │   ├── parser.js              # Parser de expressões matemáticas
+│   │   └── formatters.js          # Formatação de números
+│   ├── constants/                  # Constantes da aplicação
+│   │   └── images.js              # URLs de imagens
+│   ├── assets/                     # Recursos visuais
+│   ├── App.jsx                     # Componente principal (~100 linhas)
+│   ├── index.css                   # Estilos globais + scrollbar customizada
+│   └── main.jsx                    # Ponto de entrada do React
 ├── .gitignore
-├── eslint.config.js     # Configuração do ESLint
-├── index.html           # HTML base
-├── package.json         # Dependências e scripts
-├── README.md            # Este arquivo
-└── vite.config.js       # Configuração do Vite
+├── eslint.config.js                # Configuração do ESLint
+├── index.html                      # HTML base
+├── package.json                    # Dependências e scripts
+├── README.md                       # Este arquivo
+└── vite.config.js                  # Configuração do Vite
 ```
+
+---
+
+## 🏗️ Arquitetura e Módulos
+
+### 📦 Componentes (`src/components/`)
+
+**Buttons/**
+
+- `StarButtonPurpleDark.jsx` - Botões roxo escuro (DEL, C)
+- `StarButtonGray.jsx` - Botões cinza (números 0-9, ponto decimal)
+- `StarButtonPurple.jsx` - Botões roxo (operadores matemáticos)
+- `HistoryButton.jsx` - Botão retangular para histórico
+- `EqualButton.jsx` - Botão retangular para comparação simbólica
+- `index.js` - Barrel export para importação simplificada
+
+**HistoryModal.jsx**
+
+- Modal responsivo com os últimos 10 cálculos
+- Estilo cyberpunk com backdrop blur
+- Scrollbar customizada
+
+### 🎣 Hooks Customizados (`src/hooks/`)
+
+**useCalculator.js**
+
+- Gerencia estado da calculadora (display, LISP, erro, histórico)
+- Implementa lógica de cálculo e avaliação de expressões
+- Gerencia histórico (LIFO - últimos 10)
+- Funções: `handleButtonClick`, `handleEquals`, `toggleHistoryModal`
+
+**useKeyboardInput.js**
+
+- Captura eventos de teclado
+- Mapeia teclas para ações da calculadora
+- Gerencia feedback visual de teclas ativas
+- Suporta atalhos: Enter, Escape, Backspace, etc.
+
+### 🔧 Utilitários (`src/utils/`)
+
+**Complex.js**
+
+- Classe própria de números complexos (a + bi)
+- Métodos: `add`, `sub`, `mul`, `div`, `conjugate`, `abs`, `arg`
+- Operações avançadas: `sqrt`, `pow` (usando forma polar)
+- **Zero dependências externas**
+
+**parser.js**
+
+- `tokenize(str)` - Converte string em tokens
+- `parse(expression)` - Gera AST respeitando precedência (PEMDAS)
+- `formatLisp(node)` - Converte AST para notação LISP
+- `canonicalize(node)` - Normaliza AST para comparação
+- `evaluate(node)` - Avalia AST e retorna resultado (Complex)
+
+**formatters.js**
+
+- `formatComplex(c)` - Formata número complexo para exibição
+- Lida com casos especiais: apenas real, apenas imaginário, ambos
+
+### 📌 Constantes (`src/constants/`)
+
+**images.js**
+
+- URLs de imagens do Cloudinary
+- Backgrounds e sprites dos botões
 
 ---
 
@@ -351,10 +435,10 @@ Este projeto é de código aberto e está disponível sob a licença que você p
 
 ## 🙏 Agradecimentos
 
-- [Complex.js](https://github.com/infusion/Complex.js) - Biblioteca para operações com números complexos
-- [React](https://react.dev/) - Framework JavaScript
-- [Vite](https://vitejs.dev/) - Build tool
-- [TailwindCSS](https://tailwindcss.com/) - Framework CSS
+- [React](https://react.dev/) - Biblioteca JavaScript
+- [Vite](https://vitejs.dev/) - Build tool ultrarrápido
+- [TailwindCSS](https://tailwindcss.com/) - Framework CSS utilitário
+- [Electron](https://www.electronjs.org/) - Framework para aplicações desktop
 
 ---
 
