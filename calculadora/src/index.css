@@ -1,2 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap");
 @import "tailwindcss";
+
+/* Estilo das barras de scroll */
+.scrollbar-custom::-webkit-scrollbar {
+height: 8px; 
+width: 8px; 
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+background: rgba(139, 92, 246, 0.1); 
+border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+background: linear-gradient(
+    90deg,
+    #a855f7 0%,
+    #ec4899 100%
+  ); /* Gradiente roxo-rosa */
+border-radius: 10px;
+transition: all 0.3s ease;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+background: linear-gradient(
+    90deg,
+    #c084fc 0%,
+    #f472b6 100%
+); 
+box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+}
+
+/* Para Firefox */
+.scrollbar-custom {
+scrollbar-width: thin;
+scrollbar-color: #a855f7 rgba(139, 92, 246, 0.1);
+}
