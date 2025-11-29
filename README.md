@@ -48,9 +48,27 @@ A **Calculadora Científica LISP** é uma aplicação web/desktop moderna que co
 
 ---
 
-## 📸 ScreenShot
+## 📸 ScreenShots
 
-![Amostra da Calculadora](https://res.cloudinary.com/dw0qtsos5/image/upload/v1763834166/amostra_certa_da_calculadora_blba4y.png)
+<div align ="center">
+
+### Tela principal
+
+![Tela principal](https://res.cloudinary.com/dw0qtsos5/image/upload/v1764459877/amostra_final_wyqjf4.png)
+
+### Tela de ajuda
+
+![Tela de ajuda](https://res.cloudinary.com/dw0qtsos5/image/upload/v1764459885/amostra_HelpModal_wewxce.png)
+
+### Tela do histórico
+
+![Tela do histórico](https://res.cloudinary.com/dw0qtsos5/image/upload/v1764459894/amostra_HistoryModal_e1ltqg.png)
+
+### Tela das variáveis
+
+![Tela das variáveis](https://res.cloudinary.com/dw0qtsos5/image/upload/v1764459902/amostra_VariaveisModal_cp0lv2.png)
+
+</div>
 
 ## ✨ Funcionalidades
 
