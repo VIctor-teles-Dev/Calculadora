@@ -60,6 +60,16 @@ A **Calculadora Científica LISP** é uma aplicação web/desktop moderna que co
 - 📊 Porcentagem (%)
 - 🔢 Suporte a números decimais
 
+### 🔤 Sistema de Variáveis
+
+- **Entrada de Variáveis**: Use qualquer letra (a-z) como variável
+  - Exemplo: `x+5`, `a*b+c`, `2*y^2`
+- **Modal Interativo**: Quando você usa variáveis, a calculadora solicita seus valores
+- **Suporte Complexo**: Variáveis podem ser números reais ou complexos
+  - Exemplo: `x` onde x = 3+4i
+- **Botões Dedicados**: Botões rápidos para x, y, z, a, b
+- **Entrada Mista**: Digite variáveis pelo teclado ou clique nos botões
+
 ### 🧪 Operações Científicas
 
 - **Números Complexos**: `i` (unidade imaginária)
@@ -82,6 +92,20 @@ A **Calculadora Científica LISP** é uma aplicação web/desktop moderna que co
 - Armazena os últimos 10 cálculos
 - Modal com visualização completa
 - Interface organizada e responsiva
+- Fechar com tecla **ESC** ou clicando no X
+
+### ❓ Modal de Ajuda Interativo
+
+- **Botão "?"** no canto superior direito
+- **6 Seções Organizadas**:
+  - 📐 Funções Matemáticas (√, ^, conj, equal, i)
+  - ⌨️ Atalhos de Teclado - Números e Operadores
+  - 🎮 Atalhos de Teclado - Comandos
+  - 🔤 Variáveis (como usar)
+  - 🔢 Números Complexos (exemplos)
+  - 💡 Dicas úteis
+- **Fechar com ESC**: Pressione ESC ou clique no X
+- **Design Integrado**: Estilo cyberpunk roxo/rosa
 
 ---
 
@@ -205,40 +229,70 @@ Resultado: 3 - 4i
 LISP: (conj (+ 3 (* 4 i)))
 ```
 
+#### Usando Variáveis
+
+```
+Entrada: x + 5
+Modal solicita: x = ?
+Usuário digita: x = 3
+Resultado: 8
+```
+
+```
+Entrada: x * y + z
+Modal solicita: x = ?, y = ?, z = ?
+Usuário digita: x = 2, y = 3, z = 4
+Resultado: 10
+LISP: (+ (* x y) z)
+```
+
+```
+Entrada: conj(x)
+Modal solicita: x = ?
+Usuário digita: x = 3+4i (real: 3, img: 4)
+Resultado: 3 - 4i
+```
+
 ### 🎮 Controles
 
-| Botão         | Função                                  |
-| ------------- | --------------------------------------- |
-| **C**         | Limpa toda a expressão                  |
-| **DEL** (⌫)   | Apaga o último caractere                |
-| **=**         | Calcula a expressão                     |
-| **equal**     | Compara duas expressões simbolicamente  |
-| **Histórico** | Abre o modal com os últimos 10 cálculos |
+| Botão             | Função                                    |
+| ----------------- | ----------------------------------------- |
+| **C**             | Limpa toda a expressão                    |
+| **DEL** (⌫)       | Apaga o último caractere                  |
+| **=**             | Calcula a expressão                       |
+| **equal**         | Compara duas expressões simbolicamente    |
+| **Histórico**     | Abre o modal com os últimos 10 cálculos   |
+| **x, y, z, a, b** | Insere variáveis rapidamente              |
+| **?** (Help)      | Abre modal de ajuda com funções e atalhos |
 
 ### ⌨️ Atalhos de Teclado
 
 Você também pode usar o teclado para operar a calculadora. Abaixo está o mapeamento das teclas suportadas (case-insensitive quando aplicável):
 
-| Tecla(s)          | Função / Equivalente no Numpad                        |
-| ----------------- | ----------------------------------------------------- |
-| 0–9               | Insere o dígito correspondente                        |
-| . (ponto)         | Separador decimal                                     |
-| +, -, \*, /       | Operadores aritméticos (+, -, ×, ÷)                   |
-| x ou X            | Multiplicação (equivalente a `*`)                     |
-| ^                 | Potenciação                                           |
-| %                 | Porcentagem                                           |
-| ( , )             | Parênteses                                            |
-| i                 | Unidade imaginária (insere `i`)                       |
-| s ou S            | Raiz quadrada (equivalente a `√`)                     |
-| Enter ou =        | Executa o cálculo (equivalente ao botão `=`)          |
-| c ou C, Escape    | Limpa toda a expressão (equivalente ao botão `C`)     |
-| Backspace, Delete | Apaga o último caractere (equivalente ao botão `DEL`) |
+| Tecla(s)                    | Função / Equivalente                                  |
+| --------------------------- | ----------------------------------------------------- |
+| 0–9                         | Insere o dígito correspondente                        |
+| . (ponto)                   | Separador decimal                                     |
+| +, -, \*, /                 | Operadores aritméticos (+, -, ×, ÷)                   |
+| x ou X                      | Multiplicação (equivalente a `*`)                     |
+| ^                           | Potenciação                                           |
+| %                           | Porcentagem                                           |
+| ( , )                       | Parênteses                                            |
+| i                           | Unidade imaginária (insere `i`)                       |
+| s ou S                      | Raiz quadrada (equivalente a `√`)                     |
+| **a-z** (exceto x, s, c, i) | **Insere variável** (ex: a, b, y, z, etc)             |
+| Enter ou =                  | Executa o cálculo (equivalente ao botão `=`)          |
+| c ou C                      | Limpa toda a expressão (equivalente ao botão `C`)     |
+| **Escape**                  | **Fecha modais abertos** ou limpa expressão           |
+| Backspace, Delete           | Apaga o último caractere (equivalente ao botão `DEL`) |
 
-Notas:
+**Notas importantes:**
 
-- As teclas relacionadas a operadores (por exemplo `+`, `-`, `*`, `/`, `^`, `%`) são mapeadas diretamente para os mesmos símbolos na expressão.
-- As teclas de atalho são tratadas de forma sensível aos contextos da aplicação — por exemplo, `Enter` avalia a expressão atual, `Backspace` remove o último caractere.
-- As teclas alfabéticas indicadas (`c`, `s`, `x`) funcionam indiferentemente entre maiúsculas e minúsculas.
+- **Variáveis**: Qualquer letra (exceto x→\*, s→√, c→C, i→i) é reconhecida como variável
+- **ESC nos Modais**: Quando um modal está aberto (Ajuda, Histórico ou Variáveis), ESC fecha o modal
+- **ESC na Calculadora**: Quando nenhum modal está aberto, ESC limpa a expressão
+- **Entrada de Variáveis**: O teclado funciona normalmente no modal de variáveis (não interfere com a calculadora)
+- As teclas alfabéticas especiais (`c`, `s`, `x`, `i`) funcionam em maiúsculas e minúsculas
 
 ---
 
@@ -258,18 +312,20 @@ calculadora/
 │   │   │   ├── StarButtonPurple.jsx
 │   │   │   ├── HistoryButton.jsx
 │   │   │   └── EqualButton.jsx
-│   │   └── HistoryModal.jsx       # Modal de histórico
+│   │   ├── HistoryModal.jsx       # Modal de histórico
+│   │   ├── HelpModal.jsx          # Modal de ajuda (funções e atalhos)
+│   │   └── VariableInputModal.jsx # Modal para entrada de variáveis
 │   ├── hooks/                      # Custom React Hooks
-│   │   ├── useCalculator.js       # Lógica da calculadora
+│   │   ├── useCalculator.js       # Lógica da calculadora + variáveis
 │   │   └── useKeyboardInput.js    # Gerenciamento de teclado
 │   ├── utils/                      # Funções utilitárias
 │   │   ├── Complex.js             # Classe de números complexos
-│   │   ├── parser.js              # Parser de expressões matemáticas
+│   │   ├── parser.js              # Parser + extração/substituição de variáveis
 │   │   └── formatters.js          # Formatação de números
 │   ├── constants/                  # Constantes da aplicação
 │   │   └── images.js              # URLs de imagens
 │   ├── assets/                     # Recursos visuais
-│   ├── App.jsx                     # Componente principal (~100 linhas)
+│   ├── App.jsx                     # Componente principal (~345 linhas)
 │   ├── index.css                   # Estilos globais + scrollbar customizada
 │   └── main.jsx                    # Ponto de entrada do React
 ├── .gitignore
@@ -300,6 +356,24 @@ calculadora/
 - Modal responsivo com os últimos 10 cálculos
 - Estilo cyberpunk com backdrop blur
 - Scrollbar customizada
+- Fecha com ESC ou clique no X
+
+**HelpModal.jsx**
+
+- Modal de ajuda interativo
+- 6 seções organizadas: Funções, Atalhos, Variáveis, Complexos, Dicas
+- Design cyberpunk integrado
+- Fecha com ESC ou clique no X
+- Link para o repositório GitHub
+
+**VariableInputModal.jsx**
+
+- Modal para solicitar valores de variáveis
+- Campos separados para parte real e imaginária
+- Validação de entrada
+- Suporte a números negativos e decimais
+- Fecha com ESC, Cancelar ou após submeter
+- Não interfere com a captura de teclado da calculadora
 
 ### 🎣 Hooks Customizados (`src/hooks/`)
 
@@ -307,15 +381,20 @@ calculadora/
 
 - Gerencia estado da calculadora (display, LISP, erro, histórico)
 - Implementa lógica de cálculo e avaliação de expressões
+- **Sistema de variáveis**: detecta, extrai e substitui variáveis
 - Gerencia histórico (LIFO - últimos 10)
-- Funções: `handleButtonClick`, `handleEquals`, `toggleHistoryModal`
+- Controla estados de modais: `showHistory`, `showHelpModal`, `showVariableModal`
+- Funções: `handleButtonClick`, `handleEquals`, `toggleHistoryModal`, `toggleHelpModal`, `handleVariableSubmit`, `handleVariableCancel`
 
 **useKeyboardInput.js**
 
-- Captura eventos de teclado
+- Captura eventos de teclado global
 - Mapeia teclas para ações da calculadora
+- **Suporte a variáveis**: reconhece letras (a-z) como variáveis
+- **Desabilitação inteligente**: não captura eventos quando modais estão abertos
 - Gerencia feedback visual de teclas ativas
-- Suporta atalhos: Enter, Escape, Backspace, etc.
+- Atalhos especiais: x→\*, s→√, c→C, i→i
+- Suporta: Enter, Escape, Backspace, Delete, operadores, números
 
 ### 🔧 Utilitários (`src/utils/`)
 
@@ -328,11 +407,13 @@ calculadora/
 
 **parser.js**
 
-- `tokenize(str)` - Converte string em tokens
+- `tokenize(str)` - Converte string em tokens (inclui variáveis a-z)
 - `parse(expression)` - Gera AST respeitando precedência (PEMDAS)
 - `formatLisp(node)` - Converte AST para notação LISP
 - `canonicalize(node)` - Normaliza AST para comparação
 - `evaluate(node)` - Avalia AST e retorna resultado (Complex)
+- **`extractVariables(expression)`** - Extrai todas as variáveis únicas de uma expressão
+- **`substituteVariables(expression, values)`** - Substitui variáveis por seus valores complexos
 
 **formatters.js**
 
