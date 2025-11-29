@@ -9,6 +9,8 @@ import {
   EqualButton,
 } from "./components/Buttons";
 import HistoryModal from "./components/HistoryModal";
+import VariableInputModal from "./components/VariableInputModal";
+import HelpModal from "./components/HelpModal";
 import { backgroundImage } from "./constants/images";
 
 // Componente principal - aqui tá toda a lógica da calculadora
@@ -19,11 +21,22 @@ export default function App() {
     error,
     history,
     showHistory,
+    showVariableModal,
+    showHelpModal,
+    pendingCalculation,
     handleButtonClick,
     toggleHistoryModal,
+    toggleHelpModal,
+    handleVariableSubmit,
+    handleVariableCancel,
   } = useCalculator();
 
-  const activeKey = useKeyboardInput(handleButtonClick, displayValue, error);
+  const activeKey = useKeyboardInput(
+    handleButtonClick,
+    displayValue,
+    error,
+    showVariableModal || showHistory || showHelpModal // Desabilita captura quando qualquer modal está aberto
+  );
 
   return (
     <>
@@ -31,6 +44,18 @@ export default function App() {
       {showHistory && (
         <HistoryModal history={history} onClose={toggleHistoryModal} />
       )}
+
+      {/* Modal de Variáveis (aparece quando há variáveis na expressão) */}
+      {showVariableModal && pendingCalculation && (
+        <VariableInputModal
+          variables={pendingCalculation.variables}
+          onSubmit={handleVariableSubmit}
+          onCancel={handleVariableCancel}
+        />
+      )}
+
+      {/* Modal de Ajuda (explica funções e atalhos) */}
+      {showHelpModal && <HelpModal onClose={toggleHelpModal} />}
 
       <div
         className=" flex items-center justify-center min-h-screen font-sans"
@@ -42,7 +67,16 @@ export default function App() {
           backgroundAttachment: "fixed",
         }}
       >
-        <div className="w-full max-w-md p-6 bg-gray-900/80 backdrop-blur-sm rounded-2xl shadow-2xl border-2 border-purple-500/50">
+        <div className="w-full max-w-md p-6 bg-gray-900/80 backdrop-blur-sm rounded-2xl shadow-2xl border-2 border-purple-500/50 relative">
+          {/* Botão de Ajuda - Canto Superior Direito */}
+          <button
+            onClick={toggleHelpModal}
+            className="absolute -top-3 -right-3 w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold text-xl rounded-full shadow-lg border-2 border-purple-400 transition-all duration-200 hover:scale-110 flex items-center justify-center z-10"
+            title="Ajuda - Funções e Atalhos"
+          >
+            ?
+          </button>
+
           <h1 className="text-3xl font-bold text-center bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent mb-4 drop-shadow-lg">
             Calculadora LISP
           </h1>
@@ -60,14 +94,14 @@ export default function App() {
 
           {/* Tela secundária que mostra a notação LISP */}
           <div
-            className="bg-gray-950 text-purple-300 text-right p-2 rounded-lg mb-4 h-12 font-mono text-sm border-2 border-purple-500/30 overflow-x-auto shadow-lg scrollbar-custom"
+            className="bg-gray-950 text-purple-300 text-right p-2 rounded-lg mb-2 h-12 font-mono text-sm border-2 border-purple-500/30 overflow-x-auto shadow-lg scrollbar-custom"
             title={lispOutput}
           >
             {lispOutput || "Notação LISP..."}
           </div>
 
           {/* Grade de botões */}
-          <div className="grid grid-cols-5 grid-rows-6  gap-2">
+          <div className="grid grid-cols-5 gap-2">
             {/* Linha 1: parênteses, i, DEL e C */}
             <StarButtonPurple
               value="("
@@ -105,7 +139,44 @@ export default function App() {
               C
             </StarButtonPurpleDark>
 
-            {/* Linha 2: números 7, 8, 9 e operadores ÷ e % */}
+            {/* Linha 2: Variáveis x, y, z, a, b */}
+            <StarButtonPurple
+              value="x"
+              onClick={handleButtonClick}
+              activeKey={activeKey}
+            >
+              x
+            </StarButtonPurple>
+            <StarButtonPurple
+              value="y"
+              onClick={handleButtonClick}
+              activeKey={activeKey}
+            >
+              y
+            </StarButtonPurple>
+            <StarButtonPurple
+              value="z"
+              onClick={handleButtonClick}
+              activeKey={activeKey}
+            >
+              z
+            </StarButtonPurple>
+            <StarButtonPurple
+              value="a"
+              onClick={handleButtonClick}
+              activeKey={activeKey}
+            >
+              a
+            </StarButtonPurple>
+            <StarButtonPurple
+              value="b"
+              onClick={handleButtonClick}
+              activeKey={activeKey}
+            >
+              b
+            </StarButtonPurple>
+
+            {/* Linha 3: números 7, 8, 9 e operadores ÷ e % */}
             <StarButtonGray
               value="7"
               onClick={handleButtonClick}
@@ -142,7 +213,7 @@ export default function App() {
               %
             </StarButtonPurple>
 
-            {/* Linha 3: números 4, 5, 6 e operadores * e ^ */}
+            {/* Linha 4: números 4, 5, 6 e operadores * e ^ */}
             <StarButtonGray
               value="4"
               onClick={handleButtonClick}
@@ -179,7 +250,7 @@ export default function App() {
               ^
             </StarButtonPurple>
 
-            {/* Linha 4: números 1, 2, 3 e operador - */}
+            {/* Linha 5: números 1, 2, 3 e operador - */}
             <StarButtonGray
               value="1"
               onClick={handleButtonClick}
@@ -209,7 +280,7 @@ export default function App() {
               -
             </StarButtonPurple>
 
-            {/* Linha 5: √, 0, ponto, =, + e conjugado */}
+            {/* Linha 6: √, 0, ponto, =, + e conjugado */}
             <StarButtonPurple
               value="√"
               onClick={handleButtonClick}
@@ -253,7 +324,7 @@ export default function App() {
               c̄
             </StarButtonPurple>
 
-            {/* Linha 6: botões grandes de Histórico e Equal */}
+            {/* Linha 7: botões grandes de Histórico e Equal */}
             <HistoryButton onClick={toggleHistoryModal}>
               <h1 style={{ fontSize: "30px", fontFamily: "Orbitron" }}>
                 Histórico
