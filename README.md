@@ -517,7 +517,7 @@ Este projeto é de código aberto e está disponível sob a licença que você p
 - GitHub:
 <a 
 href="https://github.com/VIctor-teles-Dev" 
-target="blank" 
+target="_blank" 
 rel= "noopener noreferrer">
 @VIctor-teles-Dev
 </a>
@@ -531,7 +531,7 @@ rel= "noopener noreferrer">
 - Github: 
 <a 
 href="https://github.com/Pedrohxxz" 
-target="blank" 
+target="_blank" 
 rel= "noopener noreferrer">
 @Pedrohxxz
 </a>
@@ -543,7 +543,7 @@ rel= "noopener noreferrer">
 - Github: 
 <a 
 href="https://github.com/lice-games" 
-target="blank" 
+target="_blank" 
 rel= "noopener noreferrer">
 @lice-games
 </a>
