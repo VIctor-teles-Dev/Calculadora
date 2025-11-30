@@ -514,7 +514,13 @@ Este projeto é de código aberto e está disponível sob a licença que você p
 
 **Victor Teles**
 
-- GitHub: [@VIctor-teles-Dev](https://github.com/VIctor-teles-Dev)
+- GitHub:
+<a 
+href="https://github.com/VIctor-teles-Dev" 
+target="blank" 
+rel= "noopener noreferrer">
+@VIctor-teles-Dev
+</a>
 
 ---
 
@@ -522,13 +528,25 @@ Este projeto é de código aberto e está disponível sob a licença que você p
 
 **Pedro Henrique de Oliveira Carvalho**
 
-- Github: [@Pedrohxxz](https://github.com/Pedrohxxz)
+- Github: 
+<a 
+href="https://github.com/Pedrohxxz" 
+target="blank" 
+rel= "noopener noreferrer">
+@Pedrohxxz
+</a>
 
 ---
 
 **Alice Martins Bahiense Bezerra Bauler**
 
-- Github: [@lice-games](https://github.com/lice-games)
+- Github: 
+<a 
+href="https://github.com/lice-games" 
+target="blank" 
+rel= "noopener noreferrer">
+@lice-games
+</a>
 
 ---
 
