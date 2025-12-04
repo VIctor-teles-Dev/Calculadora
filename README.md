@@ -6,6 +6,7 @@
 ![Vite](https://img.shields.io/badge/Vite-7.2.2-646CFF?style=for-the-badge&logo=vite)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind-4.1.17-38B2AC?style=for-the-badge&logo=tailwind-css)
 ![Electron](https://img.shields.io/badge/Electron-39.2.0-47848F?style=for-the-badge&logo=electron)
+![Gemini](https://img.shields.io/badge/google%20gemini-2.5-0078FF?style=for-the-badge&logo=google%20gemini&logoColor=blue)
 
 Uma calculadora científica avançada com suporte a **números complexos**, **notação LISP** e **comparação simbólica de expressões**, desenvolvida com React e visual cyberpunk.
 
@@ -68,7 +69,13 @@ A **Calculadora Científica LISP** é uma aplicação web/desktop moderna que co
 
 ![Tela das variáveis](https://res.cloudinary.com/dw0qtsos5/image/upload/v1764459902/amostra_VariaveisModal_cp0lv2.png)
 
-### Tela do GEMINI
+### Tela do GEMINI(funcionando)
+
+![Tela do GEMINI(funcionando)](https://res.cloudinary.com/dw0qtsos5/image/upload/v1764873612/tela_gemini_funcional_j5xemn.png)
+
+### Tela do GEMINI(Bloqueada)
+
+![Tela do GEMINI(bloqueada)](https://res.cloudinary.com/dw0qtsos5/image/upload/v1764873622/tela_gemini_bloqueada_jdvicx.png)
 
 </div>
 
@@ -172,10 +179,10 @@ npm --version
 
 ---
 
-
 ## 🔑 Configuração do Gemini AI (Obrigatório)
 
 **Deploy na Vercel:** [Calculadora Lisp](https://calculadora-eight-lake.vercel.app/)
+
 - ✅ Todas as funcionalidades da calculadora
 - ❌ Gemini AI desabilitado (requer configuração local)
 - Provavelmente vai dar erro de API
