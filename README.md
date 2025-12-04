@@ -68,6 +68,8 @@ A **Calculadora Científica LISP** é uma aplicação web/desktop moderna que co
 
 ![Tela das variáveis](https://res.cloudinary.com/dw0qtsos5/image/upload/v1764459902/amostra_VariaveisModal_cp0lv2.png)
 
+### Tela do GEMINI
+
 </div>
 
 ## ✨ Funcionalidades
@@ -125,6 +127,19 @@ A **Calculadora Científica LISP** é uma aplicação web/desktop moderna que co
 - **Fechar com ESC**: Pressione ESC ou clique no X
 - **Design Integrado**: Estilo cyberpunk roxo/rosa
 
+### 🤖 Gemini AI Assistant (Assistente Inteligente)
+
+- **Explicações Didáticas**: IA que explica passo a passo como cada cálculo foi resolvido
+- **Ativação Automática**: Ao realizar um cálculo, o Gemini automaticamente fornece:
+  1. Identificação da operação
+  2. Passos intermediários da resolução
+  3. Resultado final explicado
+  4. Aplicação prática do conceito
+- **Interface de Chat**: Modal com histórico de conversas
+- **Powered by Google Gemini 2.5**: Utiliza o modelo de IA mais avançado do Google
+- **Gratuito**: Requer apenas uma chave de API gratuita do Google AI Studio
+- **Botão Dedicado**: Acesse o assistente clicando no título da calculadora(Calculadora LISP)
+
 ---
 
 ## 🛠️ Tecnologias Utilizadas
@@ -135,6 +150,7 @@ A **Calculadora Científica LISP** é uma aplicação web/desktop moderna que co
 | **Vite**        | 7.2.2  | Build tool e servidor de desenvolvimento |
 | **TailwindCSS** | 4.1.17 | Framework CSS para estilização           |
 | **Electron**    | 39.2.0 | Framework para aplicação desktop         |
+| **Gemini AI**   | 2.5    | Assistente de IA para explicar cálculos  |
 | **ESLint**      | 9.39.1 | Linter para qualidade de código          |
 
 ---
@@ -156,6 +172,80 @@ npm --version
 
 ---
 
+
+## 🔑 Configuração do Gemini AI (Obrigatório)
+
+**Deploy na Vercel:** [Calculadora Lisp](https://calculadora-eight-lake.vercel.app/)
+- ✅ Todas as funcionalidades da calculadora
+- ❌ Gemini AI desabilitado (requer configuração local)
+- Provavelmente vai dar erro de API
+
+### ⚠️ IMPORTANTE: Configurar ANTES de usar a calculadora
+
+Para utilizar o **Assistente Gemini AI**, você precisa de uma chave de API gratuita do Google.
+
+### 📝 Passo a Passo:
+
+#### 1️⃣ Obter a Chave da API (Gratuito)
+
+1. Acesse: **[Google AI Studio](https://aistudio.google.com/app/apikey)**
+2. Faça login com sua conta Google
+3. Clique em **"Create API Key"** (Criar chave de API)
+4. Copie a chave gerada (algo como: `AIzaSyD...`)
+
+#### 2️⃣ Criar o arquivo `.env`
+
+Na pasta raiz do projeto (`calculadora/`), crie um arquivo chamado **`.env`** com o seguinte conteúdo:
+
+```env
+# Configuração da API do Google Gemini
+# ⚠️ NUNCA compartilhe esta chave publicamente!
+
+VITE_GEMINI_API_KEY=SUA_CHAVE_API_AQUI
+```
+
+**Substitua** `SUA_CHAVE_API_AQUI` pela chave que você copiou.
+
+**Exemplo:**
+
+```env
+VITE_GEMINI_API_KEY=AIzaSyDxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+#### 3️⃣ Verificar a Configuração
+
+Seu projeto deve ter esta estrutura:
+
+```
+calculadora/
+├── .env                 ← Arquivo que você criou
+├── .gitignore          ← Já contém .env (não será commitado)
+├── package.json
+├── src/
+└── ...
+```
+
+### 🔒 Segurança da API Key
+
+**⚠️ NUNCA compartilhe sua chave de API!**
+
+- ✅ O arquivo `.env` já está no `.gitignore` (não vai para o Git)
+- ✅ A chave é usada apenas no seu navegador (client-side)
+- ❌ **NÃO** publique a chave em fóruns, Discord, ou redes sociais
+- ❌ **NÃO** faça commit do arquivo `.env` no Git
+- ❌ **NÃO** compartilhe prints de tela contendo a chave
+
+### 💡 Dica:
+
+Se você acidentalmente expor sua chave:
+
+1. Acesse o [Google AI Studio](https://aistudio.google.com/app/apikey)
+2. Delete a chave comprometida
+3. Crie uma nova chave
+4. Atualize o arquivo `.env`
+
+---
+
 ## 🚀 Instalação
 
 ### 1️⃣ Clone o Repositório (ou baixe o ZIP)
@@ -165,7 +255,13 @@ git clone https://github.com/VIctor-teles-Dev/Calculadora.git
 cd Calculadora/calculadora
 ```
 
-### 2️⃣ Instale as Dependências
+### 2️⃣ Configure o Gemini AI
+
+**⚠️ OBRIGATÓRIO:** Crie o arquivo `.env` com sua chave de API do Gemini.
+
+Veja a seção [Configuração do Gemini AI](#-configuração-do-gemini-ai-obrigatório) acima.
+
+### 3️⃣ Instale as Dependências
 
 ```bash
 npm install
@@ -177,13 +273,15 @@ Ou com yarn:
 yarn install
 ```
 
-### 3️⃣ Inicie o Servidor de Desenvolvimento
+### 4️⃣ Inicie o Servidor de Desenvolvimento
 
 ```bash
 npm run dev
 ```
 
 A aplicação estará disponível em: **http://localhost:5173**
+
+**Nota:** Se você modificar o arquivo `.env`, é necessário **reiniciar o servidor** (Ctrl+C e `npm run dev` novamente).
 
 ---
 
@@ -330,6 +428,7 @@ calculadora/
 │   │   │   ├── StarButtonPurple.jsx
 │   │   │   ├── HistoryButton.jsx
 │   │   │   └── EqualButton.jsx
+│   │   ├── GeminiChat.jsx         # Chat com assistente IA Gemini
 │   │   ├── HistoryModal.jsx       # Modal de histórico
 │   │   ├── HelpModal.jsx          # Modal de ajuda (funções e atalhos)
 │   │   └── VariableInputModal.jsx # Modal para entrada de variáveis
@@ -392,6 +491,19 @@ calculadora/
 - Suporte a números negativos e decimais
 - Fecha com ESC, Cancelar ou após submeter
 - Não interfere com a captura de teclado da calculadora
+
+**GeminiChat.jsx**
+
+- Interface de chat com o assistente de IA Gemini
+- Explicações automáticas de cálculos realizados
+- Integração com Google Generative AI (Gemini 2.5 Flash)
+- Prompts otimizados para explicações didáticas:
+  - Mensagem curta exibida ao usuário
+  - Prompt detalhado enviado ao Gemini nos bastidores
+- Histórico de conversas durante a sessão
+- Animação de loading enquanto processa
+- Tratamento de erros robusto (API key inválida, falhas de rede)
+- Design cyberpunk integrado com gradientes roxo/rosa
 
 ### 🎣 Hooks Customizados (`src/hooks/`)
 
@@ -515,12 +627,12 @@ Este projeto é de código aberto e está disponível sob a licença que você p
 **Victor Teles**
 
 - GitHub:
-<a 
-href="https://github.com/VIctor-teles-Dev" 
-target="_blank" 
-rel= "noopener noreferrer">
-@VIctor-teles-Dev
-</a>
+  <a 
+  href="https://github.com/VIctor-teles-Dev" 
+  target="_blank" 
+  rel= "noopener noreferrer">
+  @VIctor-teles-Dev
+  </a>
 
 ---
 
@@ -528,25 +640,25 @@ rel= "noopener noreferrer">
 
 **Pedro Henrique de Oliveira Carvalho**
 
-- Github: 
-<a 
-href="https://github.com/Pedrohxxz" 
-target="_blank" 
-rel= "noopener noreferrer">
-@Pedrohxxz
-</a>
+- Github:
+  <a 
+  href="https://github.com/Pedrohxxz" 
+  target="_blank" 
+  rel= "noopener noreferrer">
+  @Pedrohxxz
+  </a>
 
 ---
 
 **Alice Martins Bahiense Bezerra Bauler**
 
-- Github: 
-<a 
-href="https://github.com/lice-games" 
-target="_blank" 
-rel= "noopener noreferrer">
-@lice-games
-</a>
+- Github:
+  <a 
+  href="https://github.com/lice-games" 
+  target="_blank" 
+  rel= "noopener noreferrer">
+  @lice-games
+  </a>
 
 ---
 
@@ -556,6 +668,7 @@ rel= "noopener noreferrer">
 - [Vite](https://vitejs.dev/) - Build tool ultrarrápido
 - [TailwindCSS](https://tailwindcss.com/) - Framework CSS utilitário
 - [Electron](https://www.electronjs.org/) - Framework para aplicações desktop
+- [Google Gemini AI](https://ai.google.dev/) - Assistente de IA para explicações didáticas
 
 ---
 
